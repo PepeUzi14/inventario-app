@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="header">
+    <h2>Productos</h2>
+    <button mat-raised-button color="primary" (click)="mostrarFormulario = true">
+      <mat-icon>add</mat-icon> Nuevo Producto
+    </button>
+  </div>
+
+  <div class="busqueda">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar producto</mat-label>
+      <input matInput [(ngModel)]="busqueda" (keyup)="buscar()" placeholder="Nombre o descripción">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <mat-card *ngIf="mostrarFormulario" class="form-card">
+    <mat-card-header>
+      <mat-card-title>{{ editando ? 'Editar' : 'Nuevo' }} Producto</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="productoForm" (ngSubmit)="guardar()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Descripción</mat-label>
+          <input matInput formControlName="descripcion">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Precio</mat-label>
+          <input matInput type="number" formControlName="precio">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Stock</mat-label>
+          <input matInput type="number" formControlName="stock">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Categoría</mat-label>
+          <mat-select formControlName="categoria_id">
+            <mat-option *ngFor="let cat of categorias" [value]="cat.id">
+              {{ cat.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit">Guardar</button>
+          <button mat-button type="button" (click)="cancelar()">Cancelar</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <table mat-table [dataSource]="productos">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let p">{{ p.nombre }}</td>
+      </ng-container>
+      <ng-container matColumnDef="categoria">
+        <th mat-header-cell *matHeaderCellDef>Categoría</th>
+        <td mat-cell *matCellDef="let p">{{ p.categoria }}</td>
+      </ng-container>
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef>Precio</th>
+        <td mat-cell *matCellDef="let p">{{ p.precio | currency:'CLP':'$' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef>Stock</th>
+        <td mat-cell *matCellDef="let p" [class.bajo-stock]="p.stock < 5">{{ p.stock }}</td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let p">
+          <button mat-icon-button color="primary" (click)="editar(p)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminar(p.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card>
+</div>

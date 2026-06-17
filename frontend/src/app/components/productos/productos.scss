@@ -1,0 +1,53 @@
+.container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 28px;
+    margin: 0;
+  }
+}
+
+.busqueda {
+  margin-bottom: 20px;
+
+  mat-form-field {
+    width: 300px;
+  }
+}
+
+.form-card {
+  margin-bottom: 20px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.half-width {
+  width: 48%;
+  margin-bottom: 10px;
+  margin-right: 2%;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+.bajo-stock {
+  color: red;
+  font-weight: bold;
+}
